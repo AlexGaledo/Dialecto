@@ -3,3 +3,4 @@ googletrans
 deep-translator
 pyaudio
 datasets
+transformers
