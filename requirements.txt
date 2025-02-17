@@ -2,3 +2,4 @@ speechrecognition
 googletrans
 deep-translator
 pyaudio
+datasets
