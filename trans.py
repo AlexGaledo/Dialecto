@@ -1,23 +1,24 @@
 import speech_recognition as sr
 from deep_translator import GoogleTranslator
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, pipeline
-from datasets import load_dataset
+import torch
 
-pipe = pipeline("translation", model="facebook/nllb-200-distilled-600M")
-tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
-model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M")
+device = torch.device("cuda"if torch.cuda.is_available()else "cpu")
+print(f"Using device: {device}")
+
+pipe = pipeline("translation", model="Splintir/Nllb_dialecto/model/fine_tuned_nllb")
+tokenizer = AutoTokenizer.from_pretrained("Splintir/Nllb_dialecto/model/fine_tuned_nllb")
+model = AutoModelForSeq2SeqLM.from_pretrained("Splintir/Nllb_dialecto/model/fine_tuned_nllb")
 
 def deep_trans(text):
     translator = GoogleTranslator(source='auto',target='en')
     return translator.translate(text)
 
+
 def nllb_model(text):
     translator=pipeline('translation', model=model, tokenizer=tokenizer, src_lang='ceb_Latn', tgt_lang='eng_Latn', max_length = 400)
-    #print(type(translator))
     translated_text = translator(text)
     return translated_text[0]['translation_text']
-
-dataset = load_dataset('')
 
 def getinput():
     recognizer = sr.Recognizer()
