@@ -1,6 +1,4 @@
-speechrecognition
-googletrans
-deep-translator
-pyaudio
-datasets
+torch
 transformers
+deep-translator
+speechrecognition
