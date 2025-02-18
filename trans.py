@@ -6,9 +6,11 @@ import torch
 device = torch.device("cuda"if torch.cuda.is_available()else "cpu")
 print(f"Using device: {device}")
 
-pipe = pipeline("translation", model="Splintir/Nllb_dialecto/model/fine_tuned_nllb")
-tokenizer = AutoTokenizer.from_pretrained("Splintir/Nllb_dialecto/model/fine_tuned_nllb")
-model = AutoModelForSeq2SeqLM.from_pretrained("Splintir/Nllb_dialecto/model/fine_tuned_nllb")
+model_name = "Splintir/Nllb_dialecto"
+pipe = pipeline("translation", model=model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
 
 def deep_trans(text):
     translator = GoogleTranslator(source='auto',target='en')
