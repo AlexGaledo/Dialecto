@@ -38,6 +38,10 @@ model = model.to(device)
 train_df = pd.read_csv("train.csv")
 test_df = pd.read_csv("test.csv")
 
+# Ensure correct column names
+train_df.columns = ["source", "target"]
+test_df.columns = ["source", "target"]
+
 # Convert CSV to Hugging Face Dataset
 train_dataset = Dataset.from_pandas(train_df)
 test_dataset = Dataset.from_pandas(test_df)
@@ -45,12 +49,17 @@ test_dataset = Dataset.from_pandas(test_df)
 # Load Tokenizer
 tokenizer = AutoTokenizer.from_pretrained(base_model)
 
-# Tokenization Function
 def tokenize_data(example):
     inputs = tokenizer(example["source"], padding="max_length", truncation=True, max_length=32)
     targets = tokenizer(example["target"], padding="max_length", truncation=True, max_length=32)
-    inputs["labels"] = targets["input_ids"]
-    return inputs
+    return {
+        "input_ids": inputs["input_ids"],
+        "attention_mask": inputs["attention_mask"],
+        "labels": targets["input_ids"],
+    }
+
+
+
 
 # Tokenize Dataset
 train_dataset = train_dataset.map(tokenize_data, batched=True)
@@ -60,19 +69,26 @@ test_dataset = test_dataset.map(tokenize_data, batched=True)
 training_args = Seq2SeqTrainingArguments(
     output_dir=repo_id,
     evaluation_strategy="epoch",
-    learning_rate=1e-4,
-    per_device_train_batch_size=1,
-    per_device_eval_batch_size=1,
-    gradient_accumulation_steps=8,
+    learning_rate=5e-5,  # Lower LR for stability
+    per_device_train_batch_size=4,  
+    per_device_eval_batch_size=4,
+    gradient_accumulation_steps=8,  
     weight_decay=0.01,
-    save_total_limit=2,
-    num_train_epochs=3,
+    save_total_limit=3,  # Keep more checkpoints
+    num_train_epochs=10,  
     predict_with_generate=True,
-    fp16=True,
-    save_strategy="no",
+    fp16=torch.cuda.is_available(),  
+    save_strategy="epoch",  
     logging_dir="./logs",
     logging_steps=10,
+    load_best_model_at_end=True,  # Restore best model
+    metric_for_best_model="eval_loss",
+    greater_is_better=False,  
+    lr_scheduler_type="linear",  # Use a scheduler
+    warmup_steps=500,  # Stabilize training
 )
+
+
 
 # Trainer
 trainer = Seq2SeqTrainer(
@@ -80,17 +96,20 @@ trainer = Seq2SeqTrainer(
     args=training_args,
     train_dataset=train_dataset,
     eval_dataset=test_dataset,
-    tokenizer=tokenizer,
-    data_collator=DataCollatorForSeq2Seq(tokenizer, model=model),
+    data_collator=DataCollatorForSeq2Seq(tokenizer, model=model), 
 )
+
 
 # Train the Model
 trainer.train()
 
-# Save and Push Model to Hugging Face
+#Save and Push Model to Hugging Face
 model.save_pretrained(repo_id)
 tokenizer.save_pretrained(repo_id)
 model.push_to_hub(repo_id)
 tokenizer.push_to_hub(repo_id)
+print(train_dataset)
+print(test_dataset)
+
 
 print("Fine-tuning completed and model pushed to Hugging Face!")

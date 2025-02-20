@@ -5,74 +5,79 @@ import os
 from datetime import datetime
 
 model_name = "Splintir/Nllb_dialecto"
-pipe = pipeline("translation", model=model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+translator_pipe = pipeline("translation", model=model, tokenizer=tokenizer)
 
-#dictionary naten/future purposes pag magdadagdag ng new languages
+# Dictionary for supported languages
 dictionary = {
-        'eng' : "eng_Latn",
-        'ceb' : "ceb_Latn",
-        'hili' : " "
+    'eng': "eng_Latn",
+    'ceb': "ceb_Latn",
+    'hili': " "
 }
 
 
-#first install, initiate .dialecto app
+# First install, initiate .dialecto app
 def first_install():
     home_dir = os.path.expanduser("~") 
     app_dir = os.path.join(home_dir, ".dialecto_app")
-
     os.makedirs(app_dir, exist_ok=True)
 
 
-#nllb dialecto modeel
-def nllb_model(text):
-    translator=pipeline('translation', model=model, tokenizer=tokenizer, src_lang=dictionary['eng'], tgt_lang=dictionary['ceb'], max_length = 400)
-    translated_text = translator(text)
+# NLLB Dialecto Model
+def nllb_model(text, direction):
+    if direction == "ceb_to_eng":
+        src_lang = dictionary["ceb"]
+        tgt_lang = dictionary["eng"]
+    else:  # eng_to_ceb
+        src_lang = dictionary["eng"]
+        tgt_lang = dictionary["ceb"]
+
+    translated_text = translator_pipe(text, src_lang=src_lang, tgt_lang=tgt_lang, max_length=400)
     return translated_text[0]['translation_text']
 
 
-#deep translator (coounter checking}
+# Deep Translator (counter checking)
 def translate_deep(text):
-    deeptrans = GoogleTranslator(source='auto',target='en')
+    deeptrans = GoogleTranslator(source='auto', target='en')
     translated = deeptrans.translate(text)
     return translated
 
 
-#recording directory
+# Recording directory
 def get_app_audio_directory():
     """Creates and returns the app's dedicated directory."""
     home_dir = os.path.expanduser("~") 
     app_dir = os.path.join(home_dir, ".dialecto_app/audio")
 
-    os.makedirs(app_dir, exist_ok=True) #cross-check if it exist
+    os.makedirs(app_dir, exist_ok=True)  # Ensure directory exists
     return app_dir
 
 
-#return latest recorded file
+# Return latest recorded file
 def get_latest():
     homedir = os.path.expanduser("~")
-    audiodir = os.path.join(homedir,".dialecto_app/audio")
+    audiodir = os.path.join(homedir, ".dialecto_app/audio")
 
     files = [f for f in os.listdir(audiodir) if f.endswith(".wav")]
     if not files:
         print("No recordings found.")
         return None
-    latest_recording = max(files,key = lambda f:os.path.getmtime(os.path.join(audiodir,f)))
-    return os.path.join(audiodir,latest_recording)
+    latest_recording = max(files, key=lambda f: os.path.getmtime(os.path.join(audiodir, f)))
+    return os.path.join(audiodir, latest_recording)
 
 
-def transtext(text):
-        print(f"You said: {text}")
-        print(f"(deeptranslate) translation:{translate_deep(text)}")
-        print(f"(nllb_dialecto) translation:{nllb_model(text)}")
-    
+# Text Translation
+def transtext(text, direction):
+    print(f"You said: {text}")
+    print(f"(deeptranslate) translation: {translate_deep(text)}")
+    print(f"(nllb_dialecto) translation: {nllb_model(text, direction)}")
 
 
-#recording start
-def record_voice():
+# Recording Start
+def record_voice(direction):
     """Records voice input and saves it in the app's directory."""
-    save_folder = get_app_audio_directory()  # Get app directory
+    save_folder = get_app_audio_directory()
 
     while True:
         try:
@@ -82,21 +87,19 @@ def record_voice():
                 recognizer.adjust_for_ambient_noise(source)
                 audio = recognizer.listen(source)
                 text = recognizer.recognize_google(audio)
+
                 print(f"You said: {text}")
-                print(f"(deeptranslate) translation:{translate_deep(text)}")
-                print(f"(nllb_dialecto) translation:{nllb_model(text)}")
+                print(f"(deeptranslate) translation: {translate_deep(text)}")
+                print(f"(nllb_dialecto) translation: {nllb_model(text, direction)}")
                 break
+
         except sr.UnknownValueError:
-            print("Couldn't recognize audio, please try again")
+            print("Couldn't recognize audio, please try again.")
         except sr.RequestError:
-            print("Connection Prboelm")
-
-        
-
-        
+            print("Connection Problem")
 
     # Generate filename with timestamp
-    print("==========================================================================================")
+    print("=" * 90)
     filename = os.path.join(save_folder, f"recording_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav")
 
     try:
@@ -108,39 +111,37 @@ def record_voice():
         print(f"Permission denied: Unable to save file to {filename}. Try running as administrator.")
 
 
-
-
-
 def main():
     first_install()
-    while(True):
+    while True:
         op = input("""
 
     Dialecto v1.0 Console Beta
         
-        1. translate audio cebuano to eng 
-        2. translate cebuano text to eng 
-        3. exit
-        >> """ )
+        1. Translate audio [Cebuano -> English] 
+        2. Translate text [Cebuano -> English]
+        3. Translate audio [English -> Cebuano]
+        4. Translate text [English -> Cebuano]
+        5. Exit
+        >> """)
 
         match op:
             case "1":
-                record_voice()
+                record_voice("ceb_to_eng")
             case "2":
-                text = input("input text you want to translate: ")
-                transtext(text)
+                text = input("Input text you want to translate: ")
+                transtext(text, "ceb_to_eng")
             case "3":
-                print("exiting program")
+                record_voice("eng_to_ceb")
+            case "4":
+                text = input("Input text you want to translate: ")
+                transtext(text, "eng_to_ceb")
+            case "5":
+                print("Thank you for using our app.")
                 break
             case _:
-                print("invalid error")
-                return
-
-        
+                print("Invalid option, please try again.")
 
 
- 
 if __name__ == "__main__":
     main()
-
-
