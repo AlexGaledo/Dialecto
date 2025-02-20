@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation App</title>
+    <script>
+        function getMicrophoneInput() {
+            fetch("/microphone", { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("text").value = data.text;
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
+</head>
+<body>
+    <h2>Translation App</h2>
+    <form method="POST">
+        <label for="text">Enter text:</label>
+        <input type="text" id="text" name="text" required>
+
+        <button type="button" onclick="getMicrophoneInput()">🎤 Speak</button>
+        
+        <label for="direction">Choose direction:</label>
+        <select id="direction" name="direction">
+            <option value="ceb_to_eng">Cebuano to English</option>
+            <option value="eng_to_ceb">English to Cebuano</option>
+        </select>
+        
+        <button type="submit">Translate</button>
+    </form>
+
+    {% if translation %}
+        <h3>Translated Text:</h3>
+        <p>{{ translation }}</p>
+    {% endif %}
+</body>
+</html>
