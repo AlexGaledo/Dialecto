@@ -1,4 +1,4 @@
-import flaskDialecto as fd
+import app as fd
 
 # Deep Translator (counter checking)
 def translate_deep(text):
