@@ -5,20 +5,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const footerButtons = document.querySelectorAll(".footer-section");
+    const sections = document.querySelectorAll(".section-content");
 
+    function showSection(sectionId) {
+        sections.forEach(section => {
+            section.style.display = "none";
+        });
+
+        document.getElementById(sectionId).style.display = "block";
+    }
+
+    footerButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const section = this.getAttribute("data-section") + "-section";
+            showSection(section);
+        });
+    });
+});
 
 
 
 // Code from original HTML
-
-function getMicrophoneInput() {
-    fetch("/microphone", { method: "POST" })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("text").value = data.text;
-        })
-        .catch(error => console.error("Error:", error));
-}
 
 function sendMessage() {
     let userInput = document.getElementById("user_input").value;
@@ -39,7 +48,13 @@ function sendMessage() {
     })
     .then(response => response.json())
     .then(data => {
-        chatBox.innerHTML += `<p><strong>Chatbot:</strong> ${data.chatbot_response}</p>`;
+        console.log("Server Response:", data); // Debugging
+        if (data.error) {
+            chatBox.innerHTML += `<p style="color:red;"><strong>Error:</strong> ${data.error}</p>`;
+        } else {
+            chatBox.innerHTML += `<p><strong>Translation:</strong> ${data.translated_text}</p>`;
+            chatBox.innerHTML += `<p><strong>Chatbot:</strong> ${data.chatbot_response}</p>`;
+        }
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
     })
     .catch(error => {
@@ -48,4 +63,13 @@ function sendMessage() {
 
     // Clear input field
     document.getElementById("user_input").value = "";
+}
+
+function getMicrophoneInput() {
+    fetch("/microphone", { method: "POST" })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("text").value = data.text;
+        })
+        .catch(error => console.error("Error:", error));
 }
