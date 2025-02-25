@@ -28,6 +28,62 @@
     display: block;
 }
 
+#lessondiv {
+    display: flex;
+    flex-direction: column;
+    height: auto; 
+    gap: 20px;
+}
+
+#lesson1, #lesson2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#lesson1 h1, #lesson2 h1 {
+    text-align: center;
+    font-size: 90%;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-rows: repeat(2, 1fr); /* 2 rows */
+    gap: 10px;
+    padding: 10px;
+}
+
+.lesson-grid div {
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.lesson-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+}
+
+.lesson-box img {
+    width: 40px;
+    height: auto;
+}
+
+.lesson-box p {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+
 #loading-screen {
     position: fixed;
     width: 100%;
