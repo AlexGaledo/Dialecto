@@ -1,40 +1,43 @@
+/* Global Reset */
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+/* Header */
 #header {
-    width: auto;
-    height: auto;
     background-color: #7ED5FF;
     padding: 1rem;
     border-radius: 0 0 25px 25px;
     display: flex;
     flex-direction: column;
-    justify-content: left;
-    align-items: left;
-    text-align: left;
+    align-items: flex-start;
 }
 
+/* Responsive Navigation Button */
 #burger {
-    width: 1rem;
+    max-width: 50px;
+    height: auto;
+    flex-shrink: 0;
 }
 
+/* Sections */
 .section-content {
     display: none;
 }
-
 #home-section {
     display: block;
 }
 
+/* Lesson Section */
 #lessondiv {
     display: flex;
     flex-direction: column;
-    height: auto; 
     gap: 20px;
 }
 
+/* Individual Lessons */
 #lesson1, #lesson2 {
     flex: 1;
     display: flex;
@@ -44,19 +47,20 @@
 
 #lesson1 h1, #lesson2 h1 {
     text-align: center;
-    font-size: 90%;
+    font-size: 1rem;
     font-weight: 600;
     margin: 5px 0;
 }
 
+/* Lesson Grid */
 .lesson-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    grid-template-rows: repeat(2, 1fr); /* 2 rows */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
     padding: 10px;
 }
 
+/* Lesson Grid Boxes */
 .lesson-grid div {
     padding: 15px;
     text-align: center;
@@ -64,6 +68,7 @@
     font-weight: bold;
 }
 
+/* Lesson Boxes */
 .lesson-box {
     display: flex;
     flex-direction: column;
@@ -83,7 +88,7 @@
     font-weight: bold;
 }
 
-
+/* Loading Screen */
 #loading-screen {
     position: fixed;
     width: 100%;
@@ -92,18 +97,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 100;
+    transition: opacity 0.3s ease-in-out;
 }
 
 #loading-screen img {
-    max-width: 80%;
+    max-width: 60%;
     height: auto;
 }
 
+/* Main Content */
 #main-content {
     display: none;
 }
 
+/* Footer */
 #footer {
     position: fixed;
     bottom: 0;
@@ -118,65 +126,50 @@
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* Footer Sections */
 .footer-section {
     flex: 1;
     padding: 5px;
+    text-align: center;
 }
 
 .footer-section img {
-    margin: 0 auto;
-    max-width: 40px;
+    max-width: 32px;
     height: auto;
-    display: block;
 }
 
-@media (max-width: 768px) {
-    .footer-section img {
-        max-width: 32px;
-    }
-}
-
+/* Responsive Footer Icons */
 @media (max-width: 480px) {
     .footer-section img {
         max-width: 24px;
     }
 }
 
+/* Font Styles */
 .Montserrat {
-    font-family: 'Montserrat', 'Poppins', 'Lato', 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 2rem;
 }
 
 .Roboto {
-    font-family: 'Roboto', 'Roboto Condensed', 'Roboto Slab', 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     font-weight: 400;
 }
 
+/* Responsive Typography */
 @media (max-width: 1024px) {
-    .Montserrat {
-        font-size: 1.75rem;
-    }
-    .Roboto {
-        font-size: 0.8rem;
-    }
+    .Montserrat { font-size: 1.75rem; }
+    .Roboto { font-size: 0.8rem; }
 }
 
 @media (max-width: 768px) {
-    .Montserrat {
-        font-size: 1.5rem;
-    }
-    .Roboto {
-        font-size: 0.75rem;
-    }
+    .Montserrat { font-size: 1.5rem; }
+    .Roboto { font-size: 0.75rem; }
 }
 
 @media (max-width: 480px) {
-    .Montserrat {
-        font-size: 1.2rem;
-    }
-    .Roboto {
-        font-size: 0.6rem;
-    }
+    .Montserrat { font-size: 1.2rem; }
+    .Roboto { font-size: 0.6rem; }
 }
