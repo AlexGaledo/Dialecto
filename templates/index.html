@@ -4,16 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translation App</title>
-    <script>
-        function getMicrophoneInput() {
-            fetch("/microphone", { method: "POST" })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("text").value = data.text;
-                })
-                .catch(error => console.error("Error:", error));
-        }
-    </script>
+  
 </head>
 <body>
     <h2>Translation App</h2>
@@ -61,7 +52,13 @@
         })
         .then(response => response.json())
         .then(data => {
-            chatBox.innerHTML += `<p><strong>Chatbot:</strong> ${data.chatbot_response}</p>`;
+            console.log("Server Response:", data); // Debugging
+            if (data.error) {
+                chatBox.innerHTML += `<p style="color:red;"><strong>Error:</strong> ${data.error}</p>`;
+            } else {
+                chatBox.innerHTML += `<p><strong>Translation:</strong> ${data.translated_text}</p>`;
+                chatBox.innerHTML += `<p><strong>Chatbot:</strong> ${data.chatbot_response}</p>`;
+            }
             chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
         })
         .catch(error => {
@@ -71,6 +68,16 @@
         // Clear input field
         document.getElementById("user_input").value = "";
     }
+
+    function getMicrophoneInput() {
+        fetch("/microphone", { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("text").value = data.text;
+            })
+            .catch(error => console.error("Error:", error));
+    }
+
 </script>
 
 </html>
