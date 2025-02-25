@@ -82,6 +82,7 @@ function getMicrophoneInput() {
         .then(response => response.json())
         .then(data => {
             document.getElementById("text").value = data.text;
+            sendMessage(); // Automatically send the recognized text for translation
         })
         .catch(error => console.error("Error:", error));
 }

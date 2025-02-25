@@ -5,6 +5,9 @@
     box-sizing: border-box;
 }
 
+
+
+
 /* Header */
 #header {
     background-color: #7ED5FF;
@@ -209,32 +212,83 @@
     background-color: #ffffff;
 }
 
-#chatting-combined {
-    padding-bottom: 2rem;
+#chattingcombine {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row-reverse; /* Reverse order: button first, input second */
 }
+
+
+#user_input {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 25px; /* Make it rounded */
+    font-size: 16px;
+    width: 250px; /* Adjust width */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#user_input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#user_input:focus {
+    background-color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#chattingcombine button {
+    background-color: rgb(14, 204, 251);
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#chattingcombine button:hover {
+    background-color: #0ea1ea;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 
 textarea {
     width: 80%;
     height: 100px;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #1cade2;
 }
 
-#microphone-button {
-    background-color: #ffffff;
-    opacity: 70%;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
+#chattingcombine {
+    display: flex;
+    align-items: center;  /* Align elements properly */
+    gap: 10px;  /* Adjust spacing */
 }
+
+#user_input {
+    flex-grow: 1; /* Makes input take available space */
+}
+
+.microphone-button {
+    width: 40px;
+    height: 40px;
+    background: rgb(14, 204, 251);
+    border-radius: 50%;
+    border: 1px solid gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 
 /* Footer */
 #footer {

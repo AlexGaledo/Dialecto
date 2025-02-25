@@ -136,10 +136,13 @@
             
             <div id="chatting" class="vertical-section">
                 <div id="chattingcombine">
-                    <button onclick="sendMessage()"><img src="{{ url_for('static', filename='assets/send.png') }}" alt="Send"></button>
                     <input type="text" id="user_input" placeholder="Generate lesson plan...">
+                    <button onclick="sendMessage()">
+                        <img src="{{ url_for('static', filename='assets/send.png') }}" alt="Send">
+                    </button>
                 </div>
             </div>
+            
         </div>
     </div>
 
