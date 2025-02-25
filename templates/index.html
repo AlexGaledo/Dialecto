@@ -6,8 +6,6 @@
     <title>Translation App</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
     <div id="loading-screen">
@@ -20,41 +18,30 @@
             <h1 class="Montserrat">Speak and Learn!</h1>
             <p class="Roboto">Continue your lesson in Cebuano!</p>
         </div>
-        <div id="loading-screen">
-        <img src="assets/dialectoicon.png" alt="Loading...">
-    </div>
-
-    <div id="main-content">
-        <div id="header">
-            <img id="burger" src="assets/burger.png" alt="burger">
-            <h1 class="Montserrat">Speak and Learn!</h1>
-            <p class="Roboto">Continue your lesson in Cebuano!</p>
-        </div>
         <h2>Translation App</h2>
-            <form method="POST">
-                <label for="text">Enter text:</label>
-                <input type="text" id="text" name="text" required>
+        <form method="POST">
+            <label for="text">Enter text:</label>
+            <input type="text" id="text" name="text" required>
 
-                <button type="button" onclick="getMicrophoneInput()">🎤 Speak</button>
-                
-                <label for="direction">Choose direction:</label>
-                <select id="direction" name="direction">
-                    <option value="ceb_to_eng">Cebuano to English</option>
-                    <option value="eng_to_ceb">English to Cebuano</option>
-                </select>
-                
-                <button type="submit">Translate</button>
-            </form>
+            <button type="button" onclick="getMicrophoneInput()">🎤 Speak</button>
+            
+            <label for="direction">Choose direction:</label>
+            <select id="direction" name="direction">
+                <option value="ceb_to_eng">Cebuano to English</option>
+                <option value="eng_to_ceb">English to Cebuano</option>
+            </select>
+            
+            <button type="submit">Translate</button>
+        </form>
 
-            {% if translation %}
-                <h3>Translated Text:</h3>
-                <p>{{ translation }}</p>
-            {% endif %}
+        {% if translation %}
+            <h3>Translated Text:</h3>
+            <p>{{ translation }}</p>
+        {% endif %}
 
-            <div id="chatbox"></div>
-            <input type="text" id="user_input" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
-    </div>
+        <div id="chatbox"></div>
+        <input type="text" id="user_input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
     </div>
 </body>
 <script>
