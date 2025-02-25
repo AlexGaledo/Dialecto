@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         document.getElementById("loading-screen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
+        document.getElementById("messages-section").style.display = "block";
+        document.body.style.backgroundColor = "#7ED5FF";
     }, 3000);
 });
 
@@ -15,6 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         document.getElementById(sectionId).style.display = "block";
+
+        if (sectionId === "messages-section") {
+            document.body.style.backgroundColor = "#7ED5FF";
+        } else {
+            document.body.style.backgroundColor = "transparent";
+        }
     }
 
     footerButtons.forEach(button => {
@@ -23,6 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
             showSection(section);
         });
     });
+});
+
+document.getElementById('login-form').addEventListener('submit', function() {
+    document.getElementById('message').classList.remove('hidden');
 });
 
 
