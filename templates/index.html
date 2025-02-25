@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translation App</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+
 </head>
 <body>
     <div id="loading-screen">
-        <img src="assets/dialectoicon.png" alt="Loading...">
+        <img src="{{ url_for('static', filename='assets/dialectoicon.png') }}" alt="Loading...">
     </div>
 
     <div id="main-content">
@@ -22,7 +23,7 @@
         <!-- Lesson Section -->
         <div id="lesson-section" class="section-content">
             <div id="header">
-                <img id="burger" src="assets/burger.png" alt="burger">
+                <img src="{{ url_for('static', filename='assets/burger.png') }}" alt="burger">
                 <h1 class="Montserrat">Speak and Learn!</h1>
                 <p class="Roboto">Continue your lesson in Cebuano!</p>
             </div>
@@ -60,13 +61,13 @@
     <!-- Footer -->
     <div id="footer">
         <div class="footer-section" data-section="profile">
-            <img src="assets/profile.png" alt="Profile">
+            <img src="{{ url_for('static', filename='assets/profile.png') }}" alt="Profile">
         </div>
         <div class="footer-section" data-section="lesson">
-            <img src="assets/lesson.png" alt="Lesson">
+            <img src="{{ url_for('static', filename='assets/lesson.png') }}" alt="Lesson">
         </div>
         <div class="footer-section" data-section="messages">
-            <img src="assets/message.png" alt="Message">
+            <img src="{{ url_for('static', filename='assets/message.png') }}" alt="Message">
         </div>
     </div>
 </body>
