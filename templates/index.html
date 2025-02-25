@@ -4,33 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translation App</title>
-  
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h2>Translation App</h2>
-    <form method="POST">
-        <label for="text">Enter text:</label>
-        <input type="text" id="text" name="text" required>
+    <div id="loading-screen">
+        <img src="assets/dialectoicon.png" alt="Loading...">
+    </div>
 
-        <button type="button" onclick="getMicrophoneInput()">🎤 Speak</button>
-        
-        <label for="direction">Choose direction:</label>
-        <select id="direction" name="direction">
-            <option value="ceb_to_eng">Cebuano to English</option>
-            <option value="eng_to_ceb">English to Cebuano</option>
-        </select>
-        
-        <button type="submit">Translate</button>
-    </form>
+    <div id="main-content">
+        <div id="header">
+            <img id="burger" src="assets/burger.png" alt="burger">
+            <h1 class="Montserrat">Speak and Learn!</h1>
+            <p class="Roboto">Continue your lesson in Cebuano!</p>
+        </div>
+        <h2>Translation App</h2>
+        <form method="POST">
+            <label for="text">Enter text:</label>
+            <input type="text" id="text" name="text" required>
 
-    {% if translation %}
-        <h3>Translated Text:</h3>
-        <p>{{ translation }}</p>
-    {% endif %}
+            <button type="button" onclick="getMicrophoneInput()">🎤 Speak</button>
+            
+            <label for="direction">Choose direction:</label>
+            <select id="direction" name="direction">
+                <option value="ceb_to_eng">Cebuano to English</option>
+                <option value="eng_to_ceb">English to Cebuano</option>
+            </select>
+            
+            <button type="submit">Translate</button>
+        </form>
 
-    <div id="chatbox"></div>
-    <input type="text" id="user_input" placeholder="Type your message...">
-    <button onclick="sendMessage()">Send</button>
+        {% if translation %}
+            <h3>Translated Text:</h3>
+            <p>{{ translation }}</p>
+        {% endif %}
+
+        <div id="chatbox"></div>
+        <input type="text" id="user_input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
 </body>
 <script>
     function sendMessage() {
