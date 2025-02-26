@@ -207,7 +207,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-direction: row-reverse; /* Reverse order: button first, input second */
 }
 
 .chatting {
@@ -226,7 +225,7 @@
 }
 
 
-#user_input {
+#user_input, #microphone-button {
     flex: 1;
     padding: 15px;
     border: none;
@@ -243,12 +242,12 @@
     color: rgba(0, 0, 0, 0.5);
 }
 
-#user_input:focus {
+#user_input:focus, #microphone-button:focus {
     background-color: white;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-#chattingcombine button {
+#chattingcombine button, #main-microphone-button {
     background-color: rgb(14, 204, 251);
     border: none;
     padding: 10px;
@@ -259,7 +258,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#chattingcombine button:hover {
+#chattingcombine button:hover, #main-microphone-button:hover {
     background-color: #0ea1ea;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
@@ -281,18 +280,6 @@ textarea {
 
 #user_input {
     flex-grow: 1; /* Makes input take available space */
-}
-
-.microphone-button {
-    width: 40px;
-    height: 40px;
-    background: rgb(14, 204, 251);
-    border-radius: 50%;
-    border: 1px solid gray;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
 }
 
 #chatbox {
