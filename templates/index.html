@@ -114,35 +114,31 @@
                     <h2>Hello, Hackura!</h2>
                     <p>{{ translation }}</p>
                 {% endif %}
-                <div id="chatbox"></div>
+                <div id="chatbox" readonly></div>
+
             </div>
 
             <div class="vertical-section"></div>
             
-            <div id="microphone" class="vertical-section">
-                <form method="POST">
-                    <label for="text">Enter text:</label>
-                    <input type="text" id="text" name="text" required>
-                    
+                <div id="microphone" class="vertical-section">
                     <div id="microphone-div">
                         <button type="submit" class="microphone-button">
-                            <img src="{{ url_for('static', filename='assets/voice.png') }}" alt="Voice" class="microphone-icon">
+                            <img src="{{ url_for('static', filename='assets/voice.png') }}" alt="Voice" >
                         </button>
-                        <button id="microphone-button" type="button" onclick="getMicrophoneInput()" class="microphone-text-button">Translate...</button>
+                        <button id="microphone-button" type="button" onclick="getMicrophoneInput()" >
+                            Translate...
+                        </button>
                     </div>
-                    
-                </form>
-            </div>
-            
-            <div id="chatting" class="vertical-section">
-                <div id="chattingcombine">
-                    <input type="text" id="user_input" placeholder="Generate lesson plan...">
-                    <button onclick="sendMessage()">
-                        <img src="{{ url_for('static', filename='assets/send.png') }}" alt="Send">
-                    </button>
                 </div>
-            </div>
-            
+                
+                <div id="chatting" class="vertical-section">
+                    <div id="chattingcombine">
+                        <input type="text" id="user_input" placeholder="Generate lesson plan...">
+                        <button onclick="sendMessage()">
+                            <img src="{{ url_for('static', filename='assets/send.png') }}" alt="Send">
+                        </button>
+                    </div>
+                </div>                
         </div>
     </div>
 

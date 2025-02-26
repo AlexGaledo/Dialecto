@@ -188,7 +188,6 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: #f1f1f1;
 }
 
 .microphone {
@@ -202,6 +201,13 @@
 
 #microphone {
     padding-bottom: 2rem;
+}
+
+#microphone-div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row-reverse; /* Reverse order: button first, input second */
 }
 
 .chatting {
@@ -287,6 +293,21 @@ textarea {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+#chatbox {
+    width: 60vw;
+    height: 50vh;
+    resize: none; /* Prevents resizing */
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    background-color: #7ED5FF;
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    word-wrap: break-word; /* Wraps text properly */
+    white-space: pre-wrap; /* Keeps formatting but allows wrapping */
 }
 
 
