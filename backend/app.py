@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask,request, jsonify
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, pipeline
 import os
 import speech_recognition as sr
@@ -8,18 +8,12 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-CORS(app)  # Enable CORS for all domains (you can restrict it later if needed)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-
-
+CORS(app, origins=["http://localhost:5173"], supports_credentials=True)
 
 #Mistral AI
 load_dotenv("deepkey.env")
 MISTRAL_KEY = os.getenv("MISTRAL_KEY")
 
-
-
-app = Flask(__name__)
 model_name = "Splintir/Nllb_dialecto"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
@@ -67,7 +61,7 @@ def microphone():
 
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
-    user_input = request.json.get("text", "")
+    user_input = request.get_json().get("text", "")  # Ensure we are getting JSON data
     direction = "ceb_to_eng"  # Always translate from Cebuano to English first
 
     print(f"User Input: {user_input}")  # Debugging
@@ -95,6 +89,8 @@ def chatbot():
 
 
 
+
+
 def get_chatbot_response(text):
     url = "https://api.mistral.ai/v1/chat/completions"
     headers = {"Authorization": f"Bearer {MISTRAL_KEY}", "Content-Type": "application/json"}
@@ -118,26 +114,6 @@ def get_chatbot_response(text):
         return f"Error: {str(e)}"
 
 
-
-@app.route("/", methods=["GET", "POST"])
-def home():
-    translation = ""
-    input_text = ""
-    if request.method == "POST":
-        input_text = request.form.get("text", "")
-        direction = request.form.get("direction", "")
-        
-        if direction == "ceb_to_eng":
-            src_lang = dictionary["ceb"]
-            tgt_lang = dictionary["eng"]
-        elif direction == "eng_to_ceb":
-            src_lang = dictionary["eng"]
-            tgt_lang = dictionary["ceb"]
-        
-        translated_text = translator_pipe(input_text, src_lang=src_lang, tgt_lang=tgt_lang, max_length=400)
-        translation = translated_text[0]['translation_text']
-    
-    return render_template("index.html", translation=translation, input_text=input_text)
 
 
 

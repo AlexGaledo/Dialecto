@@ -13,22 +13,46 @@ export default function Microphone() {
             setResponse("Speech recognition is not supported in your browser.");
             return; // Exit early if the API is unavailable
         }
-
+    
         setLoading(true); // Set loading to true when recording starts
         try {
             const recognition = new SpeechRecognition();
-            recognition.lang = 'ceb-PH';  // Adjust language as needed
+            recognition.lang = 'en-US';  // Adjust language as needed
             recognition.start();
-
-            recognition.onresult = (event) => {
+    
+            recognition.onresult = async (event) => {
                 const recognizedText = event.results[0][0].transcript;
                 setAudioText(recognizedText); // Update audio text state
-
+    
                 // Send the recognized text to your backend (or process it here)
                 setResponse(`You said: ${recognizedText}`);
-                setLoading(false);  // Set loading to false after receiving the result
+                
+                try {
+                    const res = await fetch("http://localhost:5000/chatbot", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ text: recognizedText })
+                    });
+    
+                    if (!res.ok) {
+                        console.error("Error:", res.statusText);
+                        setResponse('Error fetching chatbot response');
+                        setLoading(false);
+                        return;
+                    }
+    
+                    const data = await res.json();
+                    setResponse(data.chatbot_response); // Correct field name here
+                } catch (error) {
+                    console.error('Error fetching chatbot response:', error);
+                    setResponse('Error fetching chatbot response');
+                }
+    
+                setLoading(false);  // Set loading to false after receiving the response
             };
-
+    
             recognition.onerror = (event) => {
                 console.error('Error recognizing speech:', event.error);
                 setResponse('Error recognizing speech');
@@ -40,6 +64,7 @@ export default function Microphone() {
             setLoading(false);  // Set loading to false in case of an error
         }
     };
+    
 
     return (
         <div className="microphone_container">
@@ -54,7 +79,7 @@ export default function Microphone() {
 
             <div className="chatbot_response">
                 {audioText && <p>Audio Text: {audioText}</p>}
-                {response && <p>Response: {response}</p>}
+                {response && <p>{response}</p>}
             </div>
         </div>
     );
