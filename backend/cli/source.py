@@ -1,4 +1,4 @@
-import app as fd
+import backend.app as fd
 
 # Deep Translator (counter checking)
 def translate_deep(text):

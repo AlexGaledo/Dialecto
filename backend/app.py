@@ -4,6 +4,14 @@ import os
 import speech_recognition as sr
 import requests
 from dotenv import load_dotenv
+from flask_cors import CORS
+
+app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+CORS(app)  # Enable CORS for all domains (you can restrict it later if needed)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+
+
 
 #Mistral AI
 load_dotenv("deepkey.env")
